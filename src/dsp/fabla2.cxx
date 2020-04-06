@@ -83,6 +83,7 @@ Fabla2DSP::Fabla2DSP( int rate, URIs* u ) :
 		library->bank( bankID )->pad( tmpPad );
 	}
 
+
 	// for debugging null pointers etc
 	//library->checkAll();
 }
@@ -117,6 +118,8 @@ void Fabla2DSP::process( int nf )
 
 		if( recordEnable ) {
 			printf("recording switch! %i\n", recordEnable );
+			printf("recording to pad: %i\n", recordPad );
+      
 			startRecordToPad( recordBank, recordPad );
 		} else {
 			stopRecordToPad();
@@ -146,11 +149,13 @@ void Fabla2DSP::process( int nf )
 	}
 
 	if( refresh_UI ) {
+    printf("REFRESH_UI\n");
 		int bank = 0;
 		for(int i = 0; i < 16; i++) {
 			// TODO FIXME: Bank here needs to be the loaded one
 			Pad* p = library->bank( bank )->pad( i );
 			if(p) {
+        printf("BANK SHIT... WHATEVER THAT IS... xD \n");
 				LV2_Atom_Forge_Frame frame;
 				lv2_atom_forge_frame_time( &lv2->forge, 0 );
 				lv2_atom_forge_object( &lv2->forge, &frame, 0, uris->fabla2_PadHasSample );
@@ -677,7 +682,9 @@ void Fabla2DSP::panic()
 
 void Fabla2DSP::uiMessage(int b, int p, int l, int URI, float v)
 {
-	//printf("Fabla2:uiMessage bank %i, pad %i, layer %i: %f\n", b, p, l, v );
+	printf("Fabla2:uiMessage bank %i, pad %i, layer %i: %f\n", b, p, l, v );
+  
+  recordPad = p;
 
 	/*
 	if( URI == uris->fabla2_PadPlay )

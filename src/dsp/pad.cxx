@@ -180,6 +180,8 @@ Sample* Pad::getPlaySample( float velocity )
 	QUNIT_IS_TRUE( samples.size() > 0 );
 #endif
 
+  printf("<<< PAD PLAY1! >>>\n");
+
 	/// Logic to do round-robin / velocity mapping here
 	if( samples.size() > 0 ) {
 		//printf("playing pad %i, with switch mode %i\n", ID_, int(sampleSwitchSystem) );
